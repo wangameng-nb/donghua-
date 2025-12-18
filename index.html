@@ -202,6 +202,33 @@
             transition: all 1s ease;
         }
 
+        /* 细胞器样式 */
+        .organelle {
+            position: absolute;
+            transition: all 1s ease;
+        }
+
+        .chloroplast {
+            width: 25px;
+            height: 15px;
+            background: #2ecc71;
+            border-radius: 5px;
+        }
+
+        .mitochondrion {
+            width: 20px;
+            height: 12px;
+            background: #e74c3c;
+            border-radius: 50% / 50%;
+        }
+
+        .golgi {
+            width: 30px;
+            height: 8px;
+            background: #f39c12;
+            border-radius: 3px;
+        }
+
         .equator-plane {
             position: absolute;
             width: 600px;
@@ -390,6 +417,8 @@
                 <div id="cellPlate" class="cell-plate"></div>
                 <!-- 赤道板 -->
                 <div id="equatorPlane" class="equator-plane"></div>
+                <!-- 细胞器容器 -->
+                <div id="organelles" class="organelles"></div>
             </div>
         </div>
 
@@ -454,32 +483,32 @@
             {
                 id: 'interphase',
                 name: '间期',
-                description: '细胞进行DNA复制和蛋白质合成，染色质呈细丝状，核仁明显，细胞适度生长。'
+                description: '细胞分裂的物质准备阶段，持续时间占细胞周期的90%以上。染色体行为：遗传物质以染色质丝的形式分散在细胞核中，完成DNA的复制和相关蛋白质（如组蛋白）的合成。复制后每条染色质丝包含两条完全相同的姐妹染色单体，由一个着丝粒连接，但此时形态上无法区分。纺锤体：尚未形成，细胞质中合成微管蛋白等纺锤体相关物质，为纺锤体组装储备原料。细胞核膜：完整存在，细胞核体积较大，核仁清晰可见，核质之间的物质交换正常进行。胞质：细胞质内的细胞器（如叶绿体、线粒体、高尔基体）也会进行复制，积累能量和营养物质，为分裂期提供保障。'
             },
             {
                 id: 'prophase',
                 name: '前期',
-                description: '核膜、核仁逐渐解体消失；染色质螺旋化形成染色体；纺锤体开始形成。'
+                description: '分裂期的起始阶段，形态变化显著。染色体行为：染色质丝高度螺旋化、缩短变粗，凝聚成形态清晰的染色体；核仁逐渐解体消失，其相关物质被回收利用。纺锤体：植物细胞无中心体，纺锤体由细胞两极直接发出微管组装形成。微管分为两类，一类是连接两极的极微管，另一类是未来会连接染色体着丝粒的动粒微管，纺锤体逐渐向细胞中央延伸。细胞核膜：核膜逐渐解体破裂，形成分散的膜泡，染色体完全暴露在细胞质中。胞质：细胞质开始出现极化，细胞器向两侧移动，为后续染色体排列和分离腾出空间。'
             },
             {
                 id: 'metaphase',
                 name: '中期',
-                description: '染色体的着丝粒排列在赤道板上；染色体形态固定、数目清晰。'
+                description: '染色体排列到细胞中央的关键时期，是观察染色体形态和数目的最佳时期。染色体行为：在动粒微管的牵引下，所有染色体的着丝粒精准排列在细胞中央的赤道板（虚拟平面，无具体结构）上；每条染色体的两条姐妹染色单体形态稳定，着丝粒是微管附着的关键位点。纺锤体：纺锤体结构完全成熟，极微管贯穿细胞两极，动粒微管与染色体的着丝粒紧密结合，纺锤体的两极位置固定，整体呈梭形。细胞核膜：仍处于解体状态，无完整核膜结构。胞质：细胞质成分均匀分布，无明显形态变化，细胞形态保持规则的多边形。'
             },
             {
                 id: 'anaphase',
                 name: '后期',
-                description: '着丝粒分裂，姐妹染色单体分离；在纺锤丝牵引下向细胞两极移动。'
+                description: '染色体分离并向两极移动的阶段。染色体行为：着丝粒分裂，姐妹染色单体分离，成为两条独立的子染色体；在动粒微管的牵引下，两条子染色体分别向细胞两极移动，细胞两极最终各积累一套与母细胞数目相同的染色体。纺锤体：动粒微管逐渐缩短，拉动染色体向两极移动；极微管不断延长，推动细胞两极之间的距离增大，纺锤体整体伸长，细胞形态逐渐变为椭圆形。细胞核膜：依旧处于解体状态。胞质：细胞质随纺锤体伸长向两极流动，细胞器也随之向两极分配。'
             },
             {
                 id: 'telophase',
                 name: '末期',
-                description: '染色体解螺旋为染色质；核膜、核仁重新出现；纺锤体消失；细胞板开始形成。'
+                description: '子细胞核形成，伴随胞质分裂，最终形成两个子细胞。染色体行为：到达两极的染色体解螺旋，重新恢复为染色质丝的疏松状态；核仁重新出现，细胞核的功能逐渐恢复。纺锤体：纺锤体逐渐解体，微管蛋白被分解并回收，用于构建子细胞的细胞骨架。细胞核膜：核膜重新组装，围绕在染色质周围，形成两个独立的子细胞核，此时一个细胞内存在两个细胞核。'
             },
             {
                 id: 'cytokinesis',
                 name: '胞质分裂',
-                description: '细胞板扩展形成细胞壁，将细胞一分为二，形成两个子细胞。'
+                description: '植物细胞有丝分裂的标志性步骤，与末期同步进行。在赤道板位置，高尔基体分泌的囊泡大量聚集，这些囊泡富含纤维素和果胶等细胞壁成分。囊泡相互融合，形成细胞板，细胞板从细胞中央向四周逐渐扩展。细胞板最终与原来的细胞壁相连，将细胞质完全分隔开；细胞板的两侧会形成新的细胞壁，中间的部分则发育为细胞间的胞间层。最终一个母细胞分裂为两个遗传物质完全相同的子细胞。'
             }
         ];
 
@@ -542,6 +571,37 @@
             });
         }
 
+        // 创建细胞器
+        function createOrganelles() {
+            const organellesContainer = document.getElementById('organelles');
+            organellesContainer.innerHTML = '';
+            
+            // 创建叶绿体
+            for (let i = 0; i < 6; i++) {
+                const chloroplast = document.createElement('div');
+                chloroplast.className = 'organelle chloroplast';
+                chloroplast.style.left = (120 + Math.random() * 360) + 'px';
+                chloroplast.style.top = (120 + Math.random() * 360) + 'px';
+                organellesContainer.appendChild(chloroplast);
+            }
+            
+            // 创建线粒体
+            for (let i = 0; i < 8; i++) {
+                const mitochondrion = document.createElement('div');
+                mitochondrion.className = 'organelle mitochondrion';
+                mitochondrion.style.left = (120 + Math.random() * 360) + 'px';
+                mitochondrion.style.top = (120 + Math.random() * 360) + 'px';
+                organellesContainer.appendChild(mitochondrion);
+            }
+            
+            // 创建高尔基体
+            const golgi = document.createElement('div');
+            golgi.className = 'organelle golgi';
+            golgi.style.left = '285px';
+            golgi.style.top = '120px';
+            organellesContainer.appendChild(golgi);
+        }
+
         // 创建纺锤体
         function createSpindle() {
             const spindleContainer = document.getElementById('spindle');
@@ -582,9 +642,15 @@
             const chromosomes = document.querySelectorAll('.chromosome');
             const spindle = document.getElementById('spindle');
             const cellPlate = document.getElementById('cellPlate');
+            const organellesContainer = document.getElementById('organelles');
             
-            // 显示细胞核和核仁
+            // 移除可能存在的第二个细胞核
+            const extraNucleus = document.querySelectorAll('.nucleus')[1];
+            if (extraNucleus) extraNucleus.remove();
+            
+            // 显示细胞核和核仁（核膜完整）
             nucleus.style.opacity = '1';
+            nucleus.style.left = '200px'; // 居中
             nucleolus.style.opacity = '1';
             chromatin.style.display = 'block';
             
@@ -596,6 +662,75 @@
             
             // 赤道板隐藏
             document.getElementById('equatorPlane').style.display = 'none';
+            
+            // 创建并显示细胞器
+            createOrganelles();
+            
+            // DNA复制和染色质状态增强效果
+            const chromatinFibers = document.querySelectorAll('.chromatin-fiber');
+            chromatinFibers.forEach((fiber, index) => {
+                // 复制前的染色质状态
+                fiber.style.opacity = '0.6';
+                fiber.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                // 模拟DNA复制过程（染色质纤维复制动画）
+                setTimeout(() => {
+                    // 复制过程：纤维变亮并略微延长
+                    fiber.style.opacity = '1';
+                    fiber.style.width = parseFloat(fiber.style.width) * 1.2 + 'px';
+                    fiber.style.transition = 'all 0.8s ease';
+                    
+                    // 复制完成：恢复并复制出新的纤维
+                    setTimeout(() => {
+                        // 创建复制后的姐妹染色质纤维
+                        const newFiber = fiber.cloneNode(true);
+                        newFiber.style.width = parseFloat(fiber.style.width) / 1.2 + 'px';
+                        newFiber.style.left = parseFloat(fiber.style.left) + Math.random() * 10 - 5 + 'px';
+                        newFiber.style.top = parseFloat(fiber.style.top) + Math.random() * 10 - 5 + 'px';
+                        newFiber.style.opacity = '0';
+                        newFiber.style.transform = `rotate(${Math.random() * 360}deg)`;
+                        fiber.parentNode.appendChild(newFiber);
+                        
+                        // 新纤维逐渐显现
+                        setTimeout(() => {
+                            newFiber.style.opacity = '0.7';
+                            newFiber.style.transition = 'all 0.8s ease';
+                        }, 100);
+                        
+                        // 原纤维恢复正常状态
+                        fiber.style.width = parseFloat(fiber.style.width) / 1.2 + 'px';
+                        fiber.style.opacity = '0.7';
+                    }, 800);
+                }, index * 150);
+            });
+            
+            // 细胞器复制动画效果
+            const organelles = document.querySelectorAll('.organelle');
+            organelles.forEach((organelle, index) => {
+                setTimeout(() => {
+                    // 脉动效果模拟复制过程
+                    organelle.style.transform = 'scale(1.2)';
+                    organelle.style.opacity = '0.9';
+                    
+                    setTimeout(() => {
+                        organelle.style.transform = 'scale(1)';
+                        organelle.style.opacity = '1';
+                        
+                        // 复制出的新细胞器
+                        const newOrganelle = organelle.cloneNode(true);
+                        newOrganelle.style.left = parseFloat(organelle.style.left) + Math.random() * 20 - 10 + 'px';
+                        newOrganelle.style.top = parseFloat(organelle.style.top) + Math.random() * 20 - 10 + 'px';
+                        newOrganelle.style.opacity = '0';
+                        organelle.parentNode.appendChild(newOrganelle);
+                        
+                        // 新细胞器逐渐显现
+                        setTimeout(() => {
+                            newOrganelle.style.opacity = '1';
+                            newOrganelle.style.transition = 'all 0.8s ease';
+                        }, 100);
+                    }, 600);
+                }, index * 200 + 800); // 延迟以配合染色质复制
+            });
         }
 
         // 前期
@@ -604,60 +739,307 @@
             const nucleolus = document.getElementById('nucleolus');
             const chromatin = document.getElementById('chromatin');
             const chromosomes = document.querySelectorAll('.chromosome');
+            const organelles = document.querySelectorAll('.organelle');
             
-            // 核膜核仁消失
-            nucleus.style.opacity = '0';
-            nucleolus.style.opacity = '0';
-            chromatin.style.display = 'none';
-            
-            // 染色体出现
-            chromosomes.forEach((chrom, index) => {
+            // 染色质螺旋化形成染色体（更真实的螺旋化过程）
+            const chromatinFibers = document.querySelectorAll('.chromatin-fiber');
+            chromatinFibers.forEach((fiber, index) => {
+                // 染色质纤维逐渐加粗、缩短，模拟螺旋化
                 setTimeout(() => {
-                    chrom.style.opacity = '1';
-                    chrom.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px)`;
-                }, index * 100);
+                    fiber.style.width = Math.random() * 20 + 10 + 'px';
+                    fiber.style.height = Math.random() * 3 + 2 + 'px';
+                    fiber.style.opacity = '0.9';
+                    fiber.style.transition = 'all 0.5s ease';
+                }, index * 50);
             });
             
-            // 创建纺锤体
-            createSpindle();
+            // 过渡到染色体
+            setTimeout(() => {
+                // 隐藏染色质
+                chromatin.style.opacity = '0';
+                setTimeout(() => chromatin.style.display = 'none', 500);
+                
+                // 染色体逐渐出现
+                chromosomes.forEach((chrom, index) => {
+                    setTimeout(() => {
+                        chrom.style.opacity = '1';
+                        // 随机分布在原细胞核区域
+                        chrom.style.left = (200 + Math.random() * 200) + 'px';
+                        chrom.style.top = (200 + Math.random() * 200) + 'px';
+                        chrom.style.transform = `rotate(${Math.random() * 360}deg) scale(0.7)`;
+                        chrom.style.transition = 'all 0.8s ease-in-out';
+                    }, index * 100);
+                });
+            }, 1000);
+            
+            // 核仁逐渐解体消失（分步动画）
+            setTimeout(() => nucleolus.style.transform = 'scale(0.8)', 300);
+            setTimeout(() => nucleolus.style.opacity = '0.6', 600);
+            setTimeout(() => nucleolus.style.transform = 'scale(0.5)', 900);
+            setTimeout(() => nucleolus.style.opacity = '0', 1200);
+            
+            // 核膜逐渐解体破裂（添加膜碎片效果）
+            let nuclearOpacity = 1;
+            const nuclearMembraneTimer = setInterval(() => {
+                nuclearOpacity -= 0.1;
+                nucleus.style.opacity = nuclearOpacity;
+                
+                // 创建核膜碎片效果
+                if (Math.random() > 0.7 && nuclearOpacity > 0.3) {
+                    createNuclearMembraneFragment();
+                }
+                
+                if (nuclearOpacity <= 0.2) {
+                    clearInterval(nuclearMembraneTimer);
+                    nucleus.style.opacity = '0';
+                    // 生成更多碎片以完成解体效果
+                    for (let i = 0; i < 8; i++) {
+                        setTimeout(createNuclearMembraneFragment, i * 100);
+                    }
+                }
+            }, 200);
+            
+            // 创建核膜碎片
+            function createNuclearMembraneFragment() {
+                const fragment = document.createElement('div');
+                fragment.style.position = 'absolute';
+                fragment.style.width = Math.random() * 30 + 10 + 'px';
+                fragment.style.height = Math.random() * 5 + 2 + 'px';
+                fragment.style.background = 'rgba(231, 76, 60, 0.6)'; // 与核膜颜色一致
+                fragment.style.borderRadius = '3px';
+                fragment.style.left = (150 + Math.random() * 300) + 'px';
+                fragment.style.top = (150 + Math.random() * 300) + 'px';
+                fragment.style.transform = `rotate(${Math.random() * 360}deg)`;
+                fragment.style.opacity = '0.7';
+                fragment.style.transition = 'all 1s ease';
+                
+                document.getElementById('cell').appendChild(fragment);
+                
+                // 碎片逐渐消失
+                setTimeout(() => {
+                    fragment.style.opacity = '0';
+                    fragment.style.transform = `translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px) rotate(${Math.random() * 360}deg)`;
+                    setTimeout(() => fragment.remove(), 1000);
+                }, 500);
+            }
+            
+            // 创建纺锤体（更准确的微管从两极发出的过程）
+            setTimeout(() => {
+                const spindleContainer = document.getElementById('spindle');
+                spindleContainer.innerHTML = '';
+                
+                // 从细胞两极发出的微管
+                const poles = [
+                    {x: 100, y: 300}, // 左极
+                    {x: 500, y: 300}  // 右极
+                ];
+                
+                // 创建极微管（连接两极）
+                for (let i = 0; i < 8; i++) {
+                    setTimeout(() => {
+                        const fiber = document.createElement('div');
+                        fiber.className = 'spindle-fiber';
+                        fiber.style.left = '100px';
+                        fiber.style.top = (150 + i * 40) + 'px';
+                        fiber.style.width = '0px';
+                        fiber.style.transform = `rotate(${(i - 4) * 15}deg)`;
+                        spindleContainer.appendChild(fiber);
+                        
+                        // 微管逐渐延长
+                        setTimeout(() => {
+                            fiber.style.width = '400px';
+                            fiber.style.opacity = '0.8';
+                        }, 50);
+                    }, i * 30);
+                }
+                
+                // 创建动粒微管（连接极和染色体）
+                setTimeout(() => {
+                    chromosomes.forEach((chrom, index) => {
+                        setTimeout(() => {
+                            const fiber = document.createElement('div');
+                            fiber.className = 'spindle-fiber';
+                            fiber.style.left = '100px';
+                            fiber.style.top = '300px';
+                            fiber.style.width = '0px';
+                            fiber.style.transform = `rotate(${(index - 3) * 20}deg)`;
+                            spindleContainer.appendChild(fiber);
+                            
+                            // 微管逐渐延长到染色体
+                            setTimeout(() => {
+                                fiber.style.width = '350px';
+                                fiber.style.opacity = '0.9';
+                            }, 50);
+                        }, index * 50);
+                    });
+                }, 300);
+            }, 800);
+            
+            // 细胞器向两侧移动，为染色体排列腾出空间
+            setTimeout(() => {
+                organelles.forEach((organelle, index) => {
+                    const direction = index % 2 === 0 ? -1 : 1;
+                    const xOffset = direction * (30 + Math.random() * 30);
+                    const yOffset = (Math.random() * 40 - 20);
+                    organelle.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+                    organelle.style.transition = 'all 1s ease-in-out';
+                });
+            }, 800);
         }
 
         // 中期
         function metaphase() {
             const chromosomes = document.querySelectorAll('.chromosome');
             const equatorPlane = document.getElementById('equatorPlane');
+            const spindle = document.getElementById('spindle');
+            const cellMembrane = document.getElementById('cellMembrane');
             
-            // 显示赤道板
+            // 显示赤道板（虚拟平面）
             equatorPlane.style.display = 'block';
+            equatorPlane.style.opacity = '0.7';
             
-            // 染色体排列到赤道板
-            const positions = [250, 300, 350, 400];
+            // 确保细胞形态保持规则的多边形
+            cellMembrane.style.transform = 'scale(1)';
+            
+            // 精确的染色体排列位置（确保着丝粒对齐在赤道板上）
+            // 赤道板Y坐标固定为300px，确保所有着丝粒在同一水平线上
+            const equatorY = 300;
+            const chromosomePositions = [
+                {x: 200, y: equatorY - 10}, // 着丝粒Y坐标为equatorY
+                {x: 250, y: equatorY - 10},
+                {x: 300, y: equatorY - 10},
+                {x: 350, y: equatorY - 10},
+                {x: 400, y: equatorY - 10},
+                {x: 200, y: equatorY + 10},
+                {x: 250, y: equatorY + 10},
+                {x: 300, y: equatorY + 10},
+                {x: 350, y: equatorY + 10},
+                {x: 400, y: equatorY + 10}
+            ];
+            
+            // 染色体在动粒微管牵引下排列到赤道板
             chromosomes.forEach((chrom, index) => {
-                const row = Math.floor(index / 2);
-                const col = index % 2;
-                const x = positions[col * 2] + (row * 20 - 30);
+                const pos = chromosomePositions[index % chromosomePositions.length];
+                const centromereX = pos.x + 20; // 染色体中心（着丝粒位置，染色体宽度40px）
+                const centromereY = pos.y + 10; // 染色体中心（着丝粒位置，染色体高度20px）
                 
                 setTimeout(() => {
                     chrom.style.opacity = '1';
-                    chrom.style.left = x + 'px';
-                    chrom.style.top = '300px';
-                    chrom.style.transform = 'rotate(0deg)';
-                }, index * 100);
+                    // 着丝粒精准排列在赤道板上（Y坐标严格对齐）
+                    chrom.style.left = (centromereX - 20) + 'px';
+                    chrom.style.top = (centromereY - 10) + 'px';
+                    chrom.style.transform = 'rotate(0deg) scale(1)';
+                    chrom.style.transition = 'all 1s ease-in-out';
+                    
+                    // 增强动粒微管与染色体的连接效果
+                    connectSpindleToChromosome(chrom, index);
+                }, index * 80);
             });
+            
+            // 增强纺锤体结构，显示完整的极微管和动粒微管网络
+            setTimeout(() => {
+                // 确保所有纺锤丝都清晰可见
+                const fibers = document.querySelectorAll('.spindle-fiber');
+                fibers.forEach(fiber => {
+                    fiber.style.opacity = '1';
+                    fiber.style.transition = 'all 0.5s ease';
+                });
+                
+                // 完善极微管网络（连接两极）
+                for (let i = 0; i < 12; i++) {
+                    const fiber = document.createElement('div');
+                    fiber.className = 'spindle-fiber';
+                    fiber.style.left = '100px';
+                    fiber.style.top = (180 + i * 20) + 'px';
+                    fiber.style.width = '0px';
+                    fiber.style.transform = `rotate(${(i - 5.5) * 5}deg)`;
+                    fiber.style.opacity = '0.7';
+                    spindle.appendChild(fiber);
+                    
+                    setTimeout(() => {
+                        fiber.style.width = '400px';
+                    }, 50);
+                }
+                
+                // 添加额外的动粒微管连接染色体着丝粒
+                chromosomes.forEach((chrom, index) => {
+                    // 从左极到染色体的动粒微管
+                    const fiberLeft = document.createElement('div');
+                    fiberLeft.className = 'spindle-fiber';
+                    fiberLeft.style.left = '100px';
+                    fiberLeft.style.top = (chrom.offsetTop + 10) + 'px';
+                    fiberLeft.style.width = '0px';
+                    fiberLeft.style.transform = `rotate(${Math.atan2(chrom.offsetTop + 10 - 300, chrom.offsetLeft + 20 - 100) * 180 / Math.PI}deg)`;
+                    fiberLeft.style.opacity = '0.9';
+                    spindle.appendChild(fiberLeft);
+                    
+                    // 从右极到染色体的动粒微管
+                    const fiberRight = document.createElement('div');
+                    fiberRight.className = 'spindle-fiber';
+                    fiberRight.style.left = '500px';
+                    fiberRight.style.top = (chrom.offsetTop + 10) + 'px';
+                    fiberRight.style.width = '0px';
+                    fiberRight.style.transform = `rotate(${Math.atan2(chrom.offsetTop + 10 - 300, chrom.offsetLeft + 20 - 500) * 180 / Math.PI}deg)`;
+                    fiberRight.style.opacity = '0.9';
+                    spindle.appendChild(fiberRight);
+                    
+                    setTimeout(() => {
+                        // 计算微管长度
+                        const lengthLeft = Math.sqrt(Math.pow(chrom.offsetLeft + 20 - 100, 2) + Math.pow(chrom.offsetTop + 10 - 300, 2));
+                        const lengthRight = Math.sqrt(Math.pow(500 - (chrom.offsetLeft + 20), 2) + Math.pow(chrom.offsetTop + 10 - 300, 2));
+                        
+                        fiberLeft.style.width = lengthLeft + 'px';
+                        fiberRight.style.width = lengthRight + 'px';
+                        fiberRight.style.left = (500 - lengthRight) + 'px';
+                    }, 50);
+                });
+            }, 800);
+            
+            // 连接纺锤体微管到染色体
+            function connectSpindleToChromosome(chromosome, index) {
+                const centromere = chromosome.querySelector('.centromere');
+                if (!centromere) return;
+                
+                // 增强着丝粒的可见性
+                centromere.style.opacity = '1';
+                centromere.style.transform = 'scale(1.3)';
+                centromere.style.border = '1px solid #fff';
+                centromere.style.transition = 'all 0.6s ease';
+                
+                // 短暂高亮表示动粒微管与着丝粒的连接
+                setTimeout(() => {
+                    centromere.style.background = '#ffeb3b';
+                    setTimeout(() => {
+                        centromere.style.background = '#f39c12';
+                        centromere.style.transform = 'scale(1.1)';
+                    }, 400);
+                }, 600);
+            }
         }
 
         // 后期
         function anaphase() {
             const chromosomes = document.querySelectorAll('.chromosome');
+            const spindle = document.getElementById('spindle');
             
-            // 姐妹染色单体分离
+            // 着丝粒分裂，姐妹染色单体分离为子染色体
             chromosomes.forEach((chrom, index) => {
                 setTimeout(() => {
+                    // 染色体向两极移动（动粒微管牵引）
                     const direction = index % 2 === 0 ? -1 : 1;
-                    chrom.style.left = (300 + direction * 150) + 'px';
-                    chrom.style.transform = 'rotate(90deg)';
+                    chrom.style.left = (200 + direction * 200) + 'px';
+                    chrom.style.transform = 'rotate(90deg) scale(0.9)';
+                    chrom.style.transition = 'left 1s ease-in-out, transform 0.5s ease';
                 }, index * 100);
             });
+            
+            // 极微管延长，细胞两极距离增大
+            setTimeout(() => {
+                const fibers = document.querySelectorAll('.spindle-fiber');
+                fibers.forEach((fiber, index) => {
+                    fiber.style.width = '200px';
+                });
+            }, 500);
         }
 
         // 末期
@@ -672,37 +1054,52 @@
             // 隐藏赤道板
             equatorPlane.style.display = 'none';
             
-            // 纺锤体消失
-            spindle.innerHTML = '';
+            // 纺锤体逐渐解体
+            setTimeout(() => {
+                spindle.innerHTML = '';
+            }, 500);
             
-            // 染色体到达两极
+            // 染色体到达两极并解螺旋为染色质
             chromosomes.forEach((chrom, index) => {
                 const direction = index % 2 === 0 ? -1 : 1;
-                chrom.style.left = (200 + direction * 200) + 'px';
-                chrom.style.opacity = '0.5';
+                chrom.style.left = (150 + direction * 250) + 'px';
+                chrom.style.top = (250 + Math.random() * 100) + 'px';
+                chrom.style.opacity = '0.4';
+                chrom.style.transform = 'rotate(0deg) scale(0.6)';
             });
             
-            // 核膜核仁重建
+            // 核膜核仁重建（第一个细胞核）
             nucleus.style.opacity = '1';
-            nucleus.style.left = '150px';
+            nucleus.style.left = '120px';
+            nucleolus.style.opacity = '1';
             
             // 创建第二个细胞核
             const nucleus2 = nucleus.cloneNode(true);
-            nucleus2.style.left = '450px';
+            nucleus2.style.left = '480px';
             document.getElementById('cell').appendChild(nucleus2);
             
-            // 细胞板形成
-            cellPlate.style.width = '500px';
-            cellPlate.style.left = '50px';
+            // 细胞板开始形成（高尔基体分泌的囊泡聚集）
+            cellPlate.style.width = '20px';
+            cellPlate.style.left = '290px';
+            cellPlate.style.opacity = '0.8';
         }
 
         // 胞质分裂
         function cytokinesis() {
-            // 最终状态，细胞板扩展完成
             const cellPlate = document.getElementById('cellPlate');
+            
+            // 细胞板从中心向四周扩展（高尔基体分泌的囊泡融合）
+            cellPlate.style.transition = 'width 1.5s ease-in-out, left 1.5s ease-in-out, height 0.5s ease';
             cellPlate.style.width = '500px';
             cellPlate.style.left = '50px';
             cellPlate.style.height = '4px';
+            cellPlate.style.opacity = '1';
+            
+            // 模拟细胞壁形成
+            setTimeout(() => {
+                cellPlate.style.borderTop = '1px solid #27ae60';
+                cellPlate.style.borderBottom = '1px solid #27ae60';
+            }, 1000);
         }
 
         // 执行当前阶段
@@ -792,6 +1189,12 @@
                 const extraNucleus = document.querySelectorAll('.nucleus')[1];
                 if (extraNucleus) extraNucleus.remove();
                 
+                // 重置过渡效果
+                const chromosomes = document.querySelectorAll('.chromosome');
+                chromosomes.forEach(chrom => {
+                    chrom.style.transition = 'all 0.5s ease';
+                });
+                
                 executeStage(currentStage - 1);
             }
         }
@@ -811,6 +1214,8 @@
             initChromatin();
             // 创建染色体
             createChromosomes();
+            // 创建细胞器
+            createOrganelles();
             // 初始化到间期
             executeStage(0);
             
