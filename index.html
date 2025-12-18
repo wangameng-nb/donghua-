@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<!--
+高等植物细胞有丝分裂演示动画 - 使用说明
+
+一、项目介绍
+本项目是一个面向高中生物教师和学生的网页版高等植物细胞有丝分裂演示动画，严格按照人教版高中生物必修1《分子与细胞》教材内容设计。
+
+二、使用方法
+1. 直接打开：双击index.html文件即可在浏览器中运行
+2. 上传至GitHub：
+   - 登录GitHub，创建新仓库
+   - 点击"Add file" -> "Upload files"
+   - 选择index.html文件上传
+   - 在仓库设置中开启GitHub Pages（Settings -> Pages -> Source选择main分支 -> 保存）
+
+三、自定义修改
+1. 修改文字：直接在index.html中找到对应的中文文本修改即可
+2. 修改颜色：在CSS样式部分（<style>标签内）找到对应的颜色值修改
+3. 修改动画速度：在JavaScript部分找到animationSpeed变量修改数值（单位：毫秒）
+
+四、常见问题解决
+1. 动画不播放？检查浏览器JavaScript是否开启（浏览器设置 -> 隐私与安全 -> JavaScript）
+2. GitHub Pages部署失败？检查分支是否选择正确（应为main或master分支）
+3. 页面显示异常？尝试使用Chrome、Firefox等现代浏览器
+
+五、技术支持
+如遇其他问题，可在GitHub上提交Issue，或联系生物教师互助社群
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高等植物细胞有丝分裂演示动画</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #2980b9;
+            margin: 20px 0 15px 0;
+            font-size: 1.8em;
+        }
+
+        .description {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .animation-container {
+            position: relative;
+            width: 600px;
+            height: 600px;
+            margin: 0 auto 30px;
+            background: #e8f4f8;
+            border: 3px solid #34495e;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        /* 细胞结构样式 */
+        .cell {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .cell-wall {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 500px;
+            height: 500px;
+            border: 5px solid #27ae60;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .cell-membrane {
+            position: absolute;
+            top: 60px;
+            left: 60px;
+            width: 480px;
+            height: 480px;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .nucleus {
+            position: absolute;
+            top: 200px;
+            left: 200px;
+            width: 200px;
+            height: 200px;
+            border: 3px solid #e74c3c;
+            border-radius: 50%;
+            background: rgba(255, 240, 240, 0.9);
+            transition: all 1s ease;
+        }
+
+        .nucleolus {
+            position: absolute;
+            top: 50px;
+            left: 70px;
+            width: 60px;
+            height: 60px;
+            background: #9b59b6;
+            border-radius: 50%;
+            transition: all 1s ease;
+        }
+
+        .chromatin {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.7;
+        }
+
+        .chromatin-fiber {
+            position: absolute;
+            background: #2c3e50;
+            border-radius: 50px;
+            opacity: 0.6;
+            transition: all 0.5s ease;
+        }
+
+        .chromosome {
+            position: absolute;
+            width: 40px;
+            height: 20px;
+            background: #e74c3c;
+            border-radius: 5px;
+            transition: all 1s ease;
+            opacity: 0;
+        }
+
+        .chromatid {
+            position: absolute;
+            width: 18px;
+            height: 20px;
+            background: #e74c3c;
+            border-radius: 3px;
+        }
+
+        .centromere {
+            position: absolute;
+            top: 5px;
+            left: 15px;
+            width: 10px;
+            height: 10px;
+            background: #f39c12;
+            border-radius: 50%;
+        }
+
+        .spindle-fiber {
+            position: absolute;
+            background: linear-gradient(to right, #3498db, transparent);
+            height: 2px;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .cell-plate {
+            position: absolute;
+            width: 0;
+            height: 4px;
+            background: #27ae60;
+            top: 300px;
+            left: 300px;
+            transition: all 1s ease;
+        }
+
+        .equator-plane {
+            position: absolute;
+            width: 600px;
+            height: 2px;
+            background: #f39c12;
+            opacity: 0.5;
+            top: 300px;
+            left: 0;
+            display: none;
+        }
+
+        /* 控制面板样式 */
+        .control-panel {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .stage-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .stage-btn {
+            background: #95a5a6;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .stage-btn.active {
+            background: #27ae60;
+            color: white;
+        }
+
+        .stage-btn:hover {
+            background: #7f8c8d;
+            color: white;
+        }
+
+        /* 阶段说明样式 */
+        .stage-info {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #ffc107;
+        }
+
+        .stage-title {
+            font-weight: bold;
+            color: #856404;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .stage-description {
+            color: #5a6268;
+            line-height: 1.6;
+        }
+
+        /* 术语提示样式 */
+        .term-tooltip {
+            position: relative;
+            cursor: help;
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .term-tooltip::after {
+            content: attr(data-term);
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+
+        .term-tooltip:hover::after {
+            opacity: 1;
+        }
+
+        /* 页脚样式 */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #34495e;
+            color: white;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .animation-container {
+                width: 100%;
+                height: 500px;
+            }
+            
+            .cell-wall {
+                top: 25px;
+                left: 25px;
+                width: calc(100% - 50px);
+                height: calc(100% - 50px);
+            }
+            
+            .cell-membrane {
+                top: 35px;
+                left: 35px;
+                width: calc(100% - 70px);
+                height: calc(100% - 70px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>高等植物细胞有丝分裂演示动画</h1>
+        
+        <div class="description">
+            <h2>📚 项目说明</h2>
+            <p>本动画严格按照人教版高中生物必修1《分子与细胞》教材内容设计，展示高等植物细胞有丝分裂的完整过程。</p>
+            <p>动画包含：<span class="term-tooltip" data-term="细胞周期中DNA复制和蛋白质合成的阶段">间期</span>、<span class="term-tooltip" data-term="核膜核仁消失，染色体出现的阶段">前期</span>、<span class="term-tooltip" data-term="染色体排列在赤道板上的阶段">中期</span>、<span class="term-tooltip" data-term="姐妹染色单体分离的阶段">后期</span>、<span class="term-tooltip" data-term="核膜核仁重建，形成子细胞的阶段">末期</span>。</p>
+        </div>
+
+        <div class="animation-container">
+            <div id="cell" class="cell">
+                <!-- 细胞壁 -->
+                <div id="cellWall" class="cell-wall"></div>
+                <!-- 细胞膜 -->
+                <div id="cellMembrane" class="cell-membrane"></div>
+                <!-- 细胞核 -->
+                <div id="nucleus" class="nucleus">
+                    <!-- 核仁 -->
+                    <div id="nucleolus" class="nucleolus"></div>
+                    <!-- 染色质 -->
+                    <div id="chromatin" class="chromatin"></div>
+                </div>
+                <!-- 染色体容器 -->
+                <div id="chromosomes" class="chromosomes"></div>
+                <!-- 纺锤体 -->
+                <div id="spindle" class="spindle"></div>
+                <!-- 细胞板 -->
+                <div id="cellPlate" class="cell-plate"></div>
+                <!-- 赤道板 -->
+                <div id="equatorPlane" class="equator-plane"></div>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <h2>🎮 控制面板</h2>
+            
+            <div class="controls">
+                <button id="playBtn">播放动画</button>
+                <button id="pauseBtn" disabled>暂停</button>
+                <button id="resetBtn">重置</button>
+                <button id="stepForwardBtn">单步前进</button>
+                <button id="stepBackBtn">单步后退</button>
+            </div>
+
+            <div class="stage-selector">
+                <div class="stage-btn active" data-stage="interphase">间期</div>
+                <div class="stage-btn" data-stage="prophase">前期</div>
+                <div class="stage-btn" data-stage="metaphase">中期</div>
+                <div class="stage-btn" data-stage="anaphase">后期</div>
+                <div class="stage-btn" data-stage="telophase">末期</div>
+                <div class="stage-btn" data-stage="cytokinesis">胞质分裂</div>
+            </div>
+
+            <div class="stage-info">
+                <div class="stage-title">间期</div>
+                <div class="stage-description">
+                    细胞进行DNA复制和蛋白质合成，染色质呈细丝状，核仁明显，细胞适度生长。
+                </div>
+            </div>
+        </div>
+
+        <div class="features">
+            <h2>✨ 功能特色</h2>
+            <ul>
+                <li>📱 响应式设计，支持各种设备</li>
+                <li>🎨 真实还原教材中的细胞结构</li>
+                <li>🔍 鼠标悬停查看术语解释</li>
+                <li>⏯️ 支持播放、暂停、单步控制</li>
+                <li>🎯 可直接跳转至任意阶段</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>© 2024 高等植物细胞有丝分裂演示动画 | 基于人教版高中生物必修1教材设计</p>
+            <p>如有问题，请参考文件开头的使用说明</p>
+        </footer>
+    </div>
+
+    <script>
+        // 动画速度控制（单位：毫秒）
+        const animationSpeed = 2000;
+        
+        // 当前阶段索引
+        let currentStage = 0;
+        // 动画播放状态
+        let isPlaying = false;
+        // 定时器ID
+        let animationTimer = null;
+
+        // 有丝分裂阶段定义
+        const stages = [
+            {
+                id: 'interphase',
+                name: '间期',
+                description: '细胞进行DNA复制和蛋白质合成，染色质呈细丝状，核仁明显，细胞适度生长。'
+            },
+            {
+                id: 'prophase',
+                name: '前期',
+                description: '核膜、核仁逐渐解体消失；染色质螺旋化形成染色体；纺锤体开始形成。'
+            },
+            {
+                id: 'metaphase',
+                name: '中期',
+                description: '染色体的着丝粒排列在赤道板上；染色体形态固定、数目清晰。'
+            },
+            {
+                id: 'anaphase',
+                name: '后期',
+                description: '着丝粒分裂，姐妹染色单体分离；在纺锤丝牵引下向细胞两极移动。'
+            },
+            {
+                id: 'telophase',
+                name: '末期',
+                description: '染色体解螺旋为染色质；核膜、核仁重新出现；纺锤体消失；细胞板开始形成。'
+            },
+            {
+                id: 'cytokinesis',
+                name: '胞质分裂',
+                description: '细胞板扩展形成细胞壁，将细胞一分为二，形成两个子细胞。'
+            }
+        ];
+
+        // 初始化染色质
+        function initChromatin() {
+            const chromatinContainer = document.getElementById('chromatin');
+            chromatinContainer.innerHTML = '';
+            
+            // 创建8条染色质纤维
+            for (let i = 0; i < 8; i++) {
+                const fiber = document.createElement('div');
+                fiber.className = 'chromatin-fiber';
+                fiber.style.width = Math.random() * 80 + 40 + 'px';
+                fiber.style.height = Math.random() * 2 + 1 + 'px';
+                fiber.style.top = Math.random() * 150 + 25 + 'px';
+                fiber.style.left = Math.random() * 150 + 25 + 'px';
+                fiber.style.transform = `rotate(${Math.random() * 360}deg)`;
+                chromatinContainer.appendChild(fiber);
+            }
+        }
+
+        // 创建染色体
+        function createChromosomes() {
+            const chromosomesContainer = document.getElementById('chromosomes');
+            chromosomesContainer.innerHTML = '';
+            
+            // 4对染色体，共8条
+            const positions = [
+                {x: 250, y: 250}, {x: 300, y: 250},
+                {x: 250, y: 300}, {x: 300, y: 300}
+            ];
+            
+            positions.forEach((pos, index) => {
+                for (let i = 0; i < 2; i++) {
+                    const chromosome = document.createElement('div');
+                    chromosome.className = 'chromosome';
+                    chromosome.id = `chromosome${index * 2 + i}`;
+                    chromosome.style.left = pos.x + 'px';
+                    chromosome.style.top = pos.y + 'px';
+                    
+                    // 创建姐妹染色单体
+                    const chromatid1 = document.createElement('div');
+                    chromatid1.className = 'chromatid';
+                    chromatid1.style.left = '0';
+                    
+                    const chromatid2 = document.createElement('div');
+                    chromatid2.className = 'chromatid';
+                    chromatid2.style.left = '20px';
+                    
+                    // 着丝粒
+                    const centromere = document.createElement('div');
+                    centromere.className = 'centromere';
+                    
+                    chromosome.appendChild(chromatid1);
+                    chromosome.appendChild(chromatid2);
+                    chromosome.appendChild(centromere);
+                    
+                    chromosomesContainer.appendChild(chromosome);
+                }
+            });
+        }
+
+        // 创建纺锤体
+        function createSpindle() {
+            const spindleContainer = document.getElementById('spindle');
+            spindleContainer.innerHTML = '';
+            
+            // 创建纺锤丝
+            for (let i = 0; i < 12; i++) {
+                const fiber = document.createElement('div');
+                fiber.className = 'spindle-fiber';
+                fiber.style.left = '300px';
+                fiber.style.top = (100 + i * 35) + 'px';
+                fiber.style.width = '150px';
+                fiber.style.transform = `rotate(${(i - 6) * 10}deg)`;
+                spindleContainer.appendChild(fiber);
+            }
+        }
+
+        // 显示阶段信息
+        function showStageInfo(stageIndex) {
+            const stage = stages[stageIndex];
+            const stageTitle = document.querySelector('.stage-title');
+            const stageDesc = document.querySelector('.stage-description');
+            
+            stageTitle.textContent = stage.name;
+            stageDesc.textContent = stage.description;
+            
+            // 更新阶段选择按钮
+            document.querySelectorAll('.stage-btn').forEach((btn, index) => {
+                btn.classList.toggle('active', index === stageIndex);
+            });
+        }
+
+        // 间期
+        function interphase() {
+            const nucleus = document.getElementById('nucleus');
+            const nucleolus = document.getElementById('nucleolus');
+            const chromatin = document.getElementById('chromatin');
+            const chromosomes = document.querySelectorAll('.chromosome');
+            const spindle = document.getElementById('spindle');
+            const cellPlate = document.getElementById('cellPlate');
+            
+            // 显示细胞核和核仁
+            nucleus.style.opacity = '1';
+            nucleolus.style.opacity = '1';
+            chromatin.style.display = 'block';
+            
+            // 隐藏染色体、纺锤体、细胞板
+            chromosomes.forEach(chrom => chrom.style.opacity = '0');
+            spindle.innerHTML = '';
+            cellPlate.style.width = '0px';
+            cellPlate.style.left = '300px';
+            
+            // 赤道板隐藏
+            document.getElementById('equatorPlane').style.display = 'none';
+        }
+
+        // 前期
+        function prophase() {
+            const nucleus = document.getElementById('nucleus');
+            const nucleolus = document.getElementById('nucleolus');
+            const chromatin = document.getElementById('chromatin');
+            const chromosomes = document.querySelectorAll('.chromosome');
+            
+            // 核膜核仁消失
+            nucleus.style.opacity = '0';
+            nucleolus.style.opacity = '0';
+            chromatin.style.display = 'none';
+            
+            // 染色体出现
+            chromosomes.forEach((chrom, index) => {
+                setTimeout(() => {
+                    chrom.style.opacity = '1';
+                    chrom.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px)`;
+                }, index * 100);
+            });
+            
+            // 创建纺锤体
+            createSpindle();
+        }
+
+        // 中期
+        function metaphase() {
+            const chromosomes = document.querySelectorAll('.chromosome');
+            const equatorPlane = document.getElementById('equatorPlane');
+            
+            // 显示赤道板
+            equatorPlane.style.display = 'block';
+            
+            // 染色体排列到赤道板
+            const positions = [250, 300, 350, 400];
+            chromosomes.forEach((chrom, index) => {
+                const row = Math.floor(index / 2);
+                const col = index % 2;
+                const x = positions[col * 2] + (row * 20 - 30);
+                
+                setTimeout(() => {
+                    chrom.style.opacity = '1';
+                    chrom.style.left = x + 'px';
+                    chrom.style.top = '300px';
+                    chrom.style.transform = 'rotate(0deg)';
+                }, index * 100);
+            });
+        }
+
+        // 后期
+        function anaphase() {
+            const chromosomes = document.querySelectorAll('.chromosome');
+            
+            // 姐妹染色单体分离
+            chromosomes.forEach((chrom, index) => {
+                setTimeout(() => {
+                    const direction = index % 2 === 0 ? -1 : 1;
+                    chrom.style.left = (300 + direction * 150) + 'px';
+                    chrom.style.transform = 'rotate(90deg)';
+                }, index * 100);
+            });
+        }
+
+        // 末期
+        function telophase() {
+            const chromosomes = document.querySelectorAll('.chromosome');
+            const spindle = document.getElementById('spindle');
+            const nucleus = document.getElementById('nucleus');
+            const nucleolus = document.getElementById('nucleolus');
+            const cellPlate = document.getElementById('cellPlate');
+            const equatorPlane = document.getElementById('equatorPlane');
+            
+            // 隐藏赤道板
+            equatorPlane.style.display = 'none';
+            
+            // 纺锤体消失
+            spindle.innerHTML = '';
+            
+            // 染色体到达两极
+            chromosomes.forEach((chrom, index) => {
+                const direction = index % 2 === 0 ? -1 : 1;
+                chrom.style.left = (200 + direction * 200) + 'px';
+                chrom.style.opacity = '0.5';
+            });
+            
+            // 核膜核仁重建
+            nucleus.style.opacity = '1';
+            nucleus.style.left = '150px';
+            
+            // 创建第二个细胞核
+            const nucleus2 = nucleus.cloneNode(true);
+            nucleus2.style.left = '450px';
+            document.getElementById('cell').appendChild(nucleus2);
+            
+            // 细胞板形成
+            cellPlate.style.width = '500px';
+            cellPlate.style.left = '50px';
+        }
+
+        // 胞质分裂
+        function cytokinesis() {
+            // 最终状态，细胞板扩展完成
+            const cellPlate = document.getElementById('cellPlate');
+            cellPlate.style.width = '500px';
+            cellPlate.style.left = '50px';
+            cellPlate.style.height = '4px';
+        }
+
+        // 执行当前阶段
+        function executeStage(stageIndex) {
+            currentStage = stageIndex;
+            
+            switch(stageIndex) {
+                case 0:
+                    interphase();
+                    break;
+                case 1:
+                    prophase();
+                    break;
+                case 2:
+                    metaphase();
+                    break;
+                case 3:
+                    anaphase();
+                    break;
+                case 4:
+                    telophase();
+                    break;
+                case 5:
+                    cytokinesis();
+                    break;
+            }
+            
+            showStageInfo(stageIndex);
+        }
+
+        // 播放动画
+        function playAnimation() {
+            if (isPlaying) return;
+            
+            isPlaying = true;
+            document.getElementById('playBtn').disabled = true;
+            document.getElementById('pauseBtn').disabled = false;
+            document.getElementById('stepForwardBtn').disabled = true;
+            document.getElementById('stepBackBtn').disabled = true;
+            
+            function playNextStage() {
+                if (currentStage < stages.length - 1) {
+                    executeStage(currentStage + 1);
+                    animationTimer = setTimeout(playNextStage, animationSpeed);
+                } else {
+                    // 动画结束
+                    isPlaying = false;
+                    document.getElementById('playBtn').disabled = false;
+                    document.getElementById('pauseBtn').disabled = true;
+                    document.getElementById('stepForwardBtn').disabled = false;
+                    document.getElementById('stepBackBtn').disabled = false;
+                }
+            }
+            
+            playNextStage();
+        }
+
+        // 暂停动画
+        function pauseAnimation() {
+            if (!isPlaying) return;
+            
+            isPlaying = false;
+            clearTimeout(animationTimer);
+            document.getElementById('playBtn').disabled = false;
+            document.getElementById('pauseBtn').disabled = true;
+            document.getElementById('stepForwardBtn').disabled = false;
+            document.getElementById('stepBackBtn').disabled = false;
+        }
+
+        // 重置动画
+        function resetAnimation() {
+            pauseAnimation();
+            executeStage(0);
+        }
+
+        // 单步前进
+        function stepForward() {
+            if (currentStage < stages.length - 1) {
+                executeStage(currentStage + 1);
+            }
+        }
+
+        // 单步后退
+        function stepBack() {
+            if (currentStage > 0) {
+                // 移除第二个细胞核（如果存在）
+                const extraNucleus = document.querySelectorAll('.nucleus')[1];
+                if (extraNucleus) extraNucleus.remove();
+                
+                executeStage(currentStage - 1);
+            }
+        }
+
+        // 阶段选择
+        function selectStage(stageName) {
+            pauseAnimation();
+            const stageIndex = stages.findIndex(stage => stage.id === stageName);
+            if (stageIndex !== -1) {
+                executeStage(stageIndex);
+            }
+        }
+
+        // 初始化
+        function init() {
+            // 创建染色质
+            initChromatin();
+            // 创建染色体
+            createChromosomes();
+            // 初始化到间期
+            executeStage(0);
+            
+            // 绑定事件
+            document.getElementById('playBtn').addEventListener('click', playAnimation);
+            document.getElementById('pauseBtn').addEventListener('click', pauseAnimation);
+            document.getElementById('resetBtn').addEventListener('click', resetAnimation);
+            document.getElementById('stepForwardBtn').addEventListener('click', stepForward);
+            document.getElementById('stepBackBtn').addEventListener('click', stepBack);
+            
+            // 阶段选择事件
+            document.querySelectorAll('.stage-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    selectStage(btn.dataset.stage);
+                });
+            });
+        }
+
+        // 页面加载完成后初始化
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
